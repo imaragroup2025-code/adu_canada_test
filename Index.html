@@ -1,720 +1,475 @@
-from pathlib import Path
-
-out_path = Path("/mnt/data/ADU_Canada_index_html_staging_v1.html")
-
-mailto = "mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build&body=Hi%20ADU%20Canada%20team%2C%0A%0AI%27d%20like%20to%20start%20my%20project.%0A%0AName%3A%0AEmail%3A%0APhone%20(optional)%3A%0AMunicipality%20(Windsor%2FLaSalle%2FTecumseh%2FLakeshore%2FAmherstburg)%3A%0AProperty%20address%20(optional)%3A%0AModel%20interest%20(Reform%20One%2FReform%20Duo%2FReform%20Series)%3A%0ATimeline%3A%0A%0AThank%20you."
-
-html = f"""<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ADU Canada | Predictable Backyard Homes</title>
-  <meta name="description" content="ADU Canada delivers repeatable, model-based backyard homes for the Greater Windsor Area with clear scope and predictable planning." />
-
-  <!-- Optional: keep analytics local (no external container needed) -->
-  <!-- If you're using Plausible locally in /assets/analytics/plausible.js, uncomment below -->
-  <!-- <script defer data-domain="aducanada.com" src="/assets/analytics/plausible.js"></script> -->
+  <title>ADU Canada | Predictable Backyard Homes - Greater Windsor Area</title>
+  <meta name="description" content="ADU Canada delivers repeatable, model-based backyard homes with speed, predictability, and design integrity across the Greater Windsor Area." />
 
   <style>
-    :root {{
-      --bg: #ffffff;
-      --text: #1a1a1a;
-      --muted: #666666;
-      --muted2: #888888;
-      --soft: #f8f9fa;
-      --border: #e6e6e6;
-      --shadow: 0 10px 30px rgba(0,0,0,0.08);
-      --accent: #ff6b6b;
-      --accent2: #ee5a52;
+    :root{
+      --bg:#ffffff;
+      --text:#141414;
+      --muted:#5b5b5b;
+      --border:#e9e9e9;
+      --soft:#f7f7f8;
+      --accent:#ff6b6b;
+      --accent2:#ee5a52;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
       --radius: 14px;
-      --max: 1180px;
-    }}
-
-    * {{ box-sizing: border-box; }}
-    html, body {{ margin: 0; padding: 0; }}
-    body {{
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.5;
-    }}
-
-    a {{ color: inherit; }}
-    .container {{ max-width: var(--max); margin: 0 auto; padding: 0 1.25rem; }}
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+      line-height:1.55;
+      color:var(--text);
+      background:var(--bg);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1180px;margin:0 auto;padding:0 22px}
 
     /* Header */
-    header {{
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(230,230,230,0.7);
-      z-index: 999;
-    }}
+    .nav{
+      position:fixed;top:0;left:0;right:0;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      z-index:50;
+    }
+    .nav-inner{
+      height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px;white-space:nowrap;}
+    .brand-badge{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;padding:6px 10px;border-radius:10px;font-weight:900;font-size:13px;line-height:1;
+    }
+    .nav-links{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:14px;}
+    .nav-links a:hover{color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:12px;}
 
-    .nav {{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 0;
-      gap: 1rem;
-    }}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:12px 16px;border-radius:12px;font-weight:650;font-size:14px;
+      border:1px solid transparent;cursor:pointer;white-space:nowrap;
+    }
+    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 10px 22px rgba(255,107,107,.25);}
+    .btn-primary:hover{filter:brightness(.98)}
+    .btn-secondary{background:#fff;border-color:var(--border);color:var(--text);}
+    .btn-secondary:hover{border-color:#d9d9d9}
 
-    .brand {{
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      text-decoration: none;
-      font-weight: 800;
-      letter-spacing: .2px;
-      white-space: nowrap;
-    }}
-
-    .brand-badge {{
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: white;
-      padding: 0.2rem 0.5rem;
-      border-radius: 6px;
-      font-weight: 900;
-      letter-spacing: .6px;
-    }}
-
-    .nav-links {{
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-    }}
-
-    .nav-links a {{
-      text-decoration: none;
-      color: #4a4a4a;
-      font-size: 0.95rem;
-      white-space: nowrap;
-    }}
-
-    .nav-right {{
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }}
-
-    .social {{
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding-left: 0.5rem;
-      border-left: 1px solid rgba(0,0,0,0.08);
-    }}
-
-    .social a {{
-      text-decoration: none;
-      color: #4a4a4a;
-      font-size: 0.9rem;
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-    }}
-
-    .pill {{
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      padding: 0.45rem 0.65rem;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: rgba(255,255,255,0.9);
-      font-size: 0.85rem;
-      color: #4a4a4a;
-      white-space: nowrap;
-    }}
-
-    .btn {{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: .4rem;
-      padding: 0.75rem 1.15rem;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      font-weight: 650;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: transform .06s ease, filter .15s ease;
-      user-select: none;
-    }}
-
-    .btn:active {{ transform: translateY(1px); }}
-
-    .btn-primary {{
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }}
-    .btn-primary:hover {{ filter: brightness(0.98); }}
-
-    .btn-secondary {{
-      background: white;
-      border-color: rgba(0,0,0,0.14);
-      color: var(--text);
-    }}
+    .social{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;}
+    .social a{
+      width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid var(--border);border-radius:10px;background:#fff;
+    }
+    .social a:hover{border-color:#d9d9d9;color:var(--text)}
 
     /* Hero */
-    .spacer {{ height: 78px; }}
-    .hero {{
-      padding: 5.5rem 0 3.25rem;
-      background:
-        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)),
-        url("/images/hero.jpg");
-      background-size: cover;
-      background-position: center;
-      color: white;
-    }}
+    .hero{padding-top:110px;padding-bottom:56px;}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:stretch;}
+    @media (max-width:980px){.hero-grid{grid-template-columns:1fr}.nav-links{display:none}}
 
-    .hero-inner {{ padding: 2.25rem 0; }}
-    .hero-top {{
-      display: flex;
-      flex-wrap: wrap;
-      gap: .65rem;
-      align-items: center;
-      margin-bottom: 1.25rem;
-    }}
+    .hero-card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);background:#fff;}
+    .hero-media{
+      min-height:320px;
+      background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.55)),url("/images/hero.jpg");
+      background-size:cover;background-position:center;
+      padding:28px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;
+    }
+    .pill{
+      display:inline-flex;align-items:center;gap:10px;
+      background:rgba(255,255,255,.92);color:var(--text);
+      padding:8px 12px;border-radius:999px;font-size:12px;font-weight:750;margin-bottom:14px;width:fit-content;
+    }
+    .hero-media h1{font-size:44px;line-height:1.05;letter-spacing:-0.8px;margin-bottom:12px;max-width:640px;}
+    .hero-media p{font-size:16px;opacity:.94;max-width:560px;margin-bottom:18px;}
+    .hero-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
 
-    h1 {{
-      font-size: clamp(2.2rem, 4vw, 3.6rem);
-      line-height: 1.08;
-      margin: 0 0 1rem;
-      max-width: 980px;
-    }}
-
-    .subhead {{
-      font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-      opacity: 0.95;
-      max-width: 850px;
-      margin: 0 0 1.6rem;
-      color: rgba(255,255,255,0.92);
-    }}
-
-    .hero-cta {{
-      display: flex;
-      gap: .8rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.1rem;
-    }}
-
-    .hero-note {{
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.82);
-    }}
+    /* Intake */
+    .intake{padding:22px;display:flex;flex-direction:column;gap:14px;}
+    .intake h2{font-size:18px;letter-spacing:-.2px;}
+    .intake p{color:var(--muted);font-size:14px;}
+    .form{display:grid;gap:12px;margin-top:6px;}
+    .field label{display:block;font-size:13px;font-weight:650;margin-bottom:6px;}
+    .field input,.field select,.field textarea{
+      width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;font-size:14px;outline:none;
+    }
+    .field textarea{min-height:96px;resize:vertical}
+    .fineprint{font-size:12px;color:var(--muted);}
 
     /* Sections */
-    section {{ padding: 4rem 0; }}
-    .section-head {{
-      margin: 0 auto 2rem;
-      max-width: 860px;
-      text-align: center;
-    }}
-    .section-head h2 {{
-      font-size: clamp(1.65rem, 2.5vw, 2.35rem);
-      margin: 0 0 .65rem;
-    }}
-    .section-head p {{
-      margin: 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }}
+    section{padding:62px 0}
+    .section-title{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;max-width:860px;}
+    .section-title h2{font-size:32px;letter-spacing:-0.5px;line-height:1.1;}
+    .section-title p{color:var(--muted);}
 
-    .grid-3 {{
-      display: grid;
-      gap: 1.25rem;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }}
-    @media (max-width: 980px) {{
-      .grid-3 {{ grid-template-columns: 1fr; }}
-      .nav-links {{ display: none; }}
-      .social {{ border-left: none; padding-left: 0; }}
-    }}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media (max-width:980px){.grid3{grid-template-columns:1fr}}
 
-    .card {{
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 2px 18px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }}
-
-    .card-pad {{ padding: 1.6rem; }}
-    .kicker {{ color: var(--muted2); font-size: .92rem; margin-bottom: .35rem; }}
-
-    /* Problem/Solution */
-    .soft {{ background: var(--soft); }}
-
-    .bullets {{
-      margin: 1rem auto 0;
-      max-width: 760px;
-      text-align: left;
-      color: var(--muted);
-    }}
-    .bullets li {{ margin: .35rem 0; }}
+    .card{
+      border:1px solid var(--border);border-radius:var(--radius);background:#fff;
+      box-shadow:0 6px 20px rgba(0,0,0,.05);padding:18px;
+    }
+    .card h3{font-size:18px;margin-bottom:6px;}
+    .card p{color:var(--muted);font-size:14px;}
 
     /* Models */
-    .model-img {{
-      height: 240px;
-      background: #d7d0c6;
-      position: relative;
-    }}
-    .model-img span {{
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(255,255,255,0.92);
-      padding: .35rem .55rem;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: .92rem;
-    }}
-    .model-title {{ font-size: 1.45rem; margin: 0 0 .6rem; }}
-    .model-desc {{ margin: 0; color: var(--muted); }}
-    .model-actions {{ display:flex; gap:.65rem; flex-wrap:wrap; margin-top: 1.15rem; }}
+    .models-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media (max-width:980px){.models-grid{grid-template-columns:1fr}}
 
-    /* Process */
-    .steps {{
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
-    }}
-    @media (max-width: 980px) {{
-      .steps {{ grid-template-columns: 1fr; }}
-    }}
-    .step-num {{
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: rgba(255,107,107,0.14);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight: 900;
-      color: var(--accent2);
-      margin-bottom: .85rem;
-    }}
+    .model{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+    .model-img{height:220px;background:#d8d2c8;background-size:cover;background-position:center;}
+    .model-body{padding:18px;}
+    .model-body h3{font-size:20px;margin-bottom:6px;}
+    .model-body p{color:var(--muted);font-size:14px;margin-bottom:14px;}
+    .model-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+    .tag{border:1px solid var(--border);background:var(--soft);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);font-weight:650;}
 
-    /* Why this works */
-    .why-grid {{
-      display: grid;
-      gap: 1.25rem;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }}
-    @media (max-width: 980px) {{
-      .why-grid {{ grid-template-columns: 1fr; }}
-    }}
-    .why-title {{ margin: 0 0 .5rem; font-size: 1.2rem; }}
-    .why-text {{ margin: 0; color: var(--muted); }}
+    .why{background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 
     /* Stats */
-    .stats {{
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1.25rem;
-      max-width: 860px;
-      margin: 0 auto;
-    }}
-    @media (max-width: 780px) {{
-      .stats {{ grid-template-columns: 1fr; }}
-    }}
-    .stat {{
-      padding: 1.6rem;
-      border-radius: var(--radius);
-      background: #111111;
-      color: white;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.06);
-    }}
-    .stat .v {{ font-size: 2.2rem; font-weight: 900; color: var(--accent); }}
-    .stat .l {{ opacity: .85; }}
+    .stats{background:#111;color:#fff;}
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+    @media (max-width:980px){.stats-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:560px){.stats-grid{grid-template-columns:1fr}}
+    .stat{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px;background:rgba(255,255,255,.04);}
+    .stat .v{font-size:28px;font-weight:900;color:var(--accent);margin-bottom:6px;}
+    .stat .l{opacity:.9;}
+
+    /* Service area */
+    .list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+    @media (max-width:780px){.list{grid-template-columns:1fr}}
+    .li{padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--muted);}
 
     /* Footer */
-    footer {{
-      background: #111111;
-      color: white;
-      padding: 3.25rem 0 2rem;
-    }}
-    .footer-grid {{
-      display: grid;
-      gap: 1.5rem;
-      grid-template-columns: 1.4fr 1fr 1fr;
-    }}
-    @media (max-width: 980px) {{
-      .footer-grid {{ grid-template-columns: 1fr; }}
-    }}
-    .foot-title {{ font-weight: 800; margin: 0 0 .6rem; }}
-    .foot-link a {{
-      color: rgba(255,255,255,0.78);
-      text-decoration: none;
-    }}
-    .foot-link a:hover {{ color: white; }}
+    footer{background:#0f0f10;color:#fff;padding:40px 0 24px;}
+    .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px;margin-bottom:24px;}
+    @media (max-width:980px){.footer-grid{grid-template-columns:1fr}}
+    .footer-grid p{color:rgba(255,255,255,.78);}
+    .footer-links a{display:block;color:rgba(255,255,255,.78);padding:6px 0;}
+    .footer-links a:hover{color:#fff;}
+    .footbar{
+      border-top:1px solid rgba(255,255,255,.12);
+      padding-top:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+      color:rgba(255,255,255,.68);font-size:13px;
+    }
+    .footer-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}
+    .footer-cta a{color:#fff;}
 
-    .foot-small {{
-      margin-top: 2rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.60);
-      font-size: .9rem;
-    }}
-
-    /* Hide any testimonials blocks (v1 landing) */
-    #testimonials, .testimonials, [id*="testimonial" i], [class*="testimonial" i] {{
-      display: none !important;
-      height: 0 !important;
-      overflow: hidden !important;
-    }}
+    /* Hide testimonials by default (v1 landing) */
+    .testimonials,#testimonials{display:none!important;}
   </style>
+
+  <!-- Optional analytics for staging (enable when file exists in repo) -->
+  <!-- <script defer data-domain="aducanada.com" src="/assets/analytics/plausible.js"></script> -->
 </head>
 
 <body>
-  <header>
+  <header class="nav">
     <div class="container">
-      <div class="nav">
+      <div class="nav-inner">
         <a class="brand" href="#top" aria-label="ADU Canada">
           <span class="brand-badge">ADU</span>
-          <span>ADU Canada</span>
-          <span style="color: var(--accent);">.</span>
+          <span>ADU Canada</span><span style="color:var(--accent)">.</span>
         </a>
 
-        <nav class="nav-links" aria-label="Primary navigation">
+        <nav class="nav-links" aria-label="Primary">
           <a href="#models">Models</a>
           <a href="#process">Process</a>
           <a href="#gallery">Gallery</a>
-          <a href="#why">Why This Works</a>
         </nav>
 
         <div class="nav-right">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-
-          <div class="social" aria-label="Social media">
-            <span class="pill" aria-hidden="true">Follow</span>
-            <a href="https://www.instagram.com/adu_canada/" target="_blank" rel="noopener noreferrer" aria-label="Instagram @adu_canada">
-              IG <span style="opacity:.6;">@adu_canada</span>
-            </a>
-
-            <!-- Add real links when ready (do not leave dead links in production) -->
-            <!-- <a href="https://www.tiktok.com/@YOUR_HANDLE" target="_blank" rel="noopener noreferrer">TikTok</a> -->
-            <!-- <a href="https://www.facebook.com/YOUR_PAGE" target="_blank" rel="noopener noreferrer">Facebook</a> -->
+          <div class="social" aria-label="Follow us">
+            <a href="https://www.instagram.com/adu_canada" target="_blank" rel="noopener noreferrer" aria-label="Instagram @adu_canada">IG</a>
+            <!-- Add later -->
+            <!-- <a href="https://www.facebook.com/..." target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a> -->
+            <!-- <a href="https://www.tiktok.com/@..." target="_blank" rel="noopener noreferrer" aria-label="TikTok">TT</a> -->
           </div>
+
+          <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">
+            Start Your Build
+          </a>
         </div>
       </div>
     </div>
   </header>
 
-  <div id="top" class="spacer" aria-hidden="true"></div>
-
-  <main>
-    <!-- HERO -->
-    <section class="hero" aria-label="Hero">
-      <div class="container hero-inner">
-        <div class="hero-top">
-          <span class="pill">Greater Windsor Area</span>
-          <span class="pill">Repeatable Models</span>
-          <span class="pill">Predictable Planning</span>
-        </div>
-
-        <h1>Predictable Backyard Homes for the Greater Windsor Area</h1>
-        <p class="subhead">
-          A repeatable housing solution for clients who need speed, predictability, and design integrity — delivered through model-based planning and defined scope.
-        </p>
-
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-          <a class="btn btn-secondary" href="#models">View Models</a>
-        </div>
-
-        <div class="hero-note">
-          Staging landing page for team review. Final pricing and platform features will be added after validation.
-        </div>
-      </div>
-    </section>
-
-    <!-- PROBLEM -->
-    <section class="soft" aria-label="Problem">
-      <div class="container">
-        <div class="section-head">
-          <h2>Traditional construction is unpredictable.</h2>
-          <p>Budget drift, schedule slip, and unclear responsibilities kill momentum.</p>
-        </div>
-
-        <div class="card">
-          <div class="card-pad">
-            <div class="kicker">Common friction points</div>
-            <ul class="bullets">
-              <li>Budgets change after the project begins.</li>
-              <li>Timelines extend due to site constraints and delays.</li>
-              <li>Scope creep creates surprise costs and misalignment.</li>
-              <li>Responsibilities blur between parties.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SOLUTION -->
-    <section aria-label="Solution">
-      <div class="container">
-        <div class="section-head">
-          <h2>A model-based approach that reduces friction.</h2>
-          <p>We’ve moved away from being a “firm” and built a productized answer to housing delivery.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card">
-            <div class="card-pad">
-              <div class="kicker">Step 1</div>
-              <h3 style="margin:0 0 .5rem;">Select a model</h3>
-              <p style="margin:0;color:var(--muted);">Choose a repeatable plan designed to reduce decision fatigue and speed up delivery.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <div class="kicker">Step 2</div>
-              <h3 style="margin:0 0 .5rem;">Define scope upfront</h3>
-              <p style="margin:0;color:var(--muted);">Clear responsibilities reduce misalignment and prevent scope creep.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <div class="kicker">Step 3</div>
-              <h3 style="margin:0 0 .5rem;">Coordinate delivery</h3>
-              <p style="margin:0;color:var(--muted);">A controlled delivery path that keeps timelines and expectations predictable.</p>
+  <main id="top" class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="hero-media">
+            <div class="pill">GREATER WINDSOR AREA</div>
+            <h1>Predictable Backyard Homes—without construction chaos.</h1>
+            <p>ADU Canada delivers repeatable housing solutions for clients who need speed, predictability, and design integrity.</p>
+            <div class="hero-cta">
+              <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">Start Your Build</a>
+              <a class="btn btn-secondary" href="#models">View Models</a>
             </div>
           </div>
         </div>
 
-        <div style="text-align:center;margin-top:2rem;">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-        </div>
-      </div>
-    </section>
+        <div class="hero-card">
+          <div class="intake">
+            <h2>Start with the basics</h2>
+            <p>Share your details. We’ll respond with next steps.</p>
 
-    <!-- MODELS -->
-    <section id="models" class="soft" aria-label="Models">
-      <div class="container">
-        <div class="section-head">
-          <h2>Models</h2>
-          <p>Visual-first product pages will follow. For now, review the lineup and confirm direction.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card">
-            <div class="model-img" style="background-image:url('/images/reform-one.jpg'); background-size:cover; background-position:center;">
-              <span>Reform One</span>
-            </div>
-            <div class="card-pad">
-              <h3 class="model-title">Reform One</h3>
-              <p class="model-desc">Compact, contemporary, and optimized for speed and predictable planning.</p>
-              <div class="model-actions">
-                <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-                <a class="btn btn-secondary" href="#gallery">See Photos</a>
+            <form class="form" onsubmit="return false;" aria-label="Lead intake (staging)">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input id="name" name="name" placeholder="Jane Smith" autocomplete="name" />
               </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="model-img" style="background-image:url('/images/reform-duo.jpg'); background-size:cover; background-position:center;">
-              <span>Reform Duo</span>
-            </div>
-            <div class="card-pad">
-              <h3 class="model-title">Reform Duo</h3>
-              <p class="model-desc">Balanced layout with flexible living space and strong rental potential.</p>
-              <div class="model-actions">
-                <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-                <a class="btn btn-secondary" href="#gallery">See Photos</a>
+              <div class="field">
+                <label for="email">Your email</label>
+                <input id="email" name="email" placeholder="you@email.com" autocomplete="email" />
               </div>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="model-img" style="background-image:url('/images/reform-series.jpg'); background-size:cover; background-position:center;">
-              <span>Reform Series</span>
-            </div>
-            <div class="card-pad">
-              <h3 class="model-title">Reform Series</h3>
-              <p class="model-desc">Expanded options for clients who want more space without custom complexity.</p>
-              <div class="model-actions">
-                <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-                <a class="btn btn-secondary" href="#gallery">See Photos</a>
+              <div class="field">
+                <label for="municipality">Municipality</label>
+                <select id="municipality" name="municipality">
+                  <option value="" selected>Select one</option>
+                  <option>Windsor</option>
+                  <option>LaSalle</option>
+                  <option>Tecumseh</option>
+                  <option>Lakeshore</option>
+                  <option>Amherstburg</option>
+                  <option>Essex</option>
+                  <option>Kingsville</option>
+                  <option>Leamington</option>
+                </select>
               </div>
-            </div>
+              <div class="field">
+                <label for="message">What are you building?</label>
+                <textarea id="message" name="message" placeholder="Rental unit, family suite, workforce housing…"></textarea>
+              </div>
+
+              <!-- Staging: mailto CTA (replace later with form submit / CRM) -->
+              <a class="btn btn-primary" style="width:100%;"
+                 href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build&body=Name%3A%20%0AEmail%3A%20%0AMunicipality%3A%20%0AProject%20Notes%3A%20">
+                Start Your Build
+              </a>
+
+              <div class="fineprint">
+                We’ll respond by email. You can also call <a href="tel:+19802224469" style="text-decoration:underline;">980-222-4469</a>.
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- WHY THIS WORKS -->
-    <section id="why" aria-label="Why this works">
-      <div class="container">
-        <div class="section-head">
-          <h2>Why This Works</h2>
-          <p>Risk management — built into the delivery model.</p>
-        </div>
-
-        <div class="why-grid">
-          <div class="card">
-            <div class="card-pad">
-              <h3 class="why-title">Controlled manufacturing</h3>
-              <p class="why-text">We don’t just design; we manufacture. By moving construction into a controlled environment, we reduce weather delays and price volatility.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <h3 class="why-title">Defined scope</h3>
-              <p class="why-text">Clear responsibilities reduce friction, prevent scope creep, and keep expectations aligned.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <h3 class="why-title">Predictable estimating</h3>
-              <p class="why-text">Our estimating framework is built for predictability, reducing surprises and controlling costs before construction begins.</p>
-            </div>
-          </div>
-        </div>
-
-        <div style="text-align:center;margin-top:2rem;">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- STATS -->
-    <section class="soft" aria-label="Stats">
-      <div class="container">
-        <div class="section-head">
-          <h2>Proven outcomes</h2>
-          <p>Practical proof points that support predictable planning.</p>
-        </div>
-
-        <div class="stats">
-          <div class="stat">
-            <div class="v">100+</div>
-            <div class="l">Units Installed</div>
-          </div>
-          <div class="stat">
-            <div class="v">$200K</div>
-            <div class="l">Average Value Added</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section id="process" aria-label="Process">
-      <div class="container">
-        <div class="section-head">
-          <h2>Process</h2>
-          <p>A proven path designed to reduce mistakes and eliminate ambiguity.</p>
-        </div>
-
-        <div class="steps">
-          <div class="card">
-            <div class="card-pad">
-              <div class="step-num">1</div>
-              <h3 style="margin:0 0 .5rem;">Choose your model</h3>
-              <p style="margin:0;color:var(--muted);">Select Reform One, Duo, or Series based on your goals and site conditions.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <div class="step-num">2</div>
-              <h3 style="margin:0 0 .5rem;">Align scope & site plan</h3>
-              <p style="margin:0;color:var(--muted);">We clarify responsibilities and coordinate the critical steps to keep planning predictable.</p>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-pad">
-              <div class="step-num">3</div>
-              <h3 style="margin:0 0 .5rem;">Delivery & install</h3>
-              <p style="margin:0;color:var(--muted);">A controlled delivery path that protects timeline and budget expectations.</p>
-            </div>
-          </div>
-        </div>
-
-        <div style="text-align:center;margin-top:2rem;">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- GALLERY (placeholder) -->
-    <section id="gallery" class="soft" aria-label="Gallery">
-      <div class="container">
-        <div class="section-head">
-          <h2>Gallery</h2>
-          <p>Reuse your existing images here. Replace placeholders with the final asset filenames.</p>
-        </div>
-
-        <div class="grid-3">
-          <div class="card"><div class="model-img" style="height:220px;background-image:url('/images/gallery-1.jpg'); background-size:cover; background-position:center;"></div></div>
-          <div class="card"><div class="model-img" style="height:220px;background-image:url('/images/gallery-2.jpg'); background-size:cover; background-position:center;"></div></div>
-          <div class="card"><div class="model-img" style="height:220px;background-image:url('/images/gallery-3.jpg'); background-size:cover; background-position:center;"></div></div>
-        </div>
-
-        <div style="text-align:center;margin-top:1.75rem;">
-          <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-        </div>
-      </div>
-    </section>
+    </div>
   </main>
 
-  <footer aria-label="Footer">
+  <section id="problem">
+    <div class="container">
+      <div class="section-title">
+        <h2>Traditional construction is unpredictable.</h2>
+        <p>Projects stall when budgets change, timelines slip, and responsibilities blur. We reduce friction by standardizing models and defining scope upfront.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="card"><h3>Budget Drift</h3><p>Hidden costs and scope creep erode trust and derail timelines.</p></div>
+        <div class="card"><h3>Schedule Risk</h3><p>Weather delays and trade coordination create unpredictable completion dates.</p></div>
+        <div class="card"><h3>Responsibility Gaps</h3><p>Unclear roles lead to rework, missed handoffs, and confusion.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="models" style="background:var(--soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Choose a model. Reduce decision fatigue.</h2>
+        <p>Three proven layouts to fit real needs—rental income, multigenerational living, or workforce housing.</p>
+      </div>
+
+      <div class="models-grid">
+        <article class="model">
+          <div class="model-img" style="background-image:url('/images/model-reform-one.jpg');" aria-label="Reform One image"></div>
+          <div class="model-body">
+            <h3>Reform One</h3>
+            <p>Compact, efficient living with modern finishes—built for speed and clarity.</p>
+            <div class="model-meta">
+              <span class="tag">Rental-ready</span><span class="tag">Low footprint</span><span class="tag">Fast path</span>
+            </div>
+            <a class="btn btn-secondary" href="#gallery">See visuals</a>
+          </div>
+        </article>
+
+        <article class="model">
+          <div class="model-img" style="background-image:url('/images/model-reform-duo.jpg');" aria-label="Reform Duo image"></div>
+          <div class="model-body">
+            <h3>Reform Duo</h3>
+            <p>Balanced layout for everyday living—designed to feel bigger than its footprint.</p>
+            <div class="model-meta">
+              <span class="tag">Flexible living</span><span class="tag">Contemporary</span><span class="tag">Predictable</span>
+            </div>
+            <a class="btn btn-secondary" href="#gallery">See visuals</a>
+          </div>
+        </article>
+
+        <article class="model">
+          <div class="model-img" style="background-image:url('/images/model-reform-series.jpg');" aria-label="Reform Series image"></div>
+          <div class="model-body">
+            <h3>Reform Series</h3>
+            <p>Expanded options for larger programs—ideal for repeatable multi-unit delivery.</p>
+            <div class="model-meta">
+              <span class="tag">Scale-friendly</span><span class="tag">Programmatic</span><span class="tag">Design integrity</span>
+            </div>
+            <a class="btn btn-secondary" href="#gallery">See visuals</a>
+          </div>
+        </article>
+      </div>
+
+      <div style="margin-top:18px;">
+        <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">Start Your Build</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="why">
+    <div class="container">
+      <div class="section-title">
+        <h2>Why this works</h2>
+        <p>A rational approach to faster, attainable housing—without sacrificing design quality.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="card">
+          <h3>Controlled Manufacturing</h3>
+          <p>We don’t just design; we manufacture. By moving construction into a controlled environment, we reduce weather delays and price surges.</p>
+        </div>
+        <div class="card">
+          <h3>Defined Scope</h3>
+          <p>Responsibilities are clearly defined between fabrication, site coordination, and ownership—reducing friction and preventing scope creep.</p>
+        </div>
+        <div class="card">
+          <h3>Predictable Estimating</h3>
+          <p>Our estimating framework is built for predictability, reducing surprises and controlling costs before construction begins.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="container">
+      <div class="section-title">
+        <h2>A proven path—from model to move-in.</h2>
+        <p>Simple steps designed to keep expectations aligned and projects moving.</p>
+      </div>
+
+      <div class="grid3">
+        <div class="card"><h3>1) Select a model</h3><p>Choose Reform One, Duo, or Series based on your goals and site.</p></div>
+        <div class="card"><h3>2) Align scope & logistics</h3><p>We define roles early and coordinate the delivery path to reduce friction.</p></div>
+        <div class="card"><h3>3) Deliver & install</h3><p>Controlled fabrication supports consistent timelines and quality outcomes.</p></div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">Start Your Build</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats" aria-label="Proof points">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat"><div class="v">100+</div><div class="l">Units Installed</div></div>
+        <div class="stat"><div class="v">4.9/5</div><div class="l">Customer Rating</div></div>
+        <div class="stat"><div class="v">90 Days</div><div class="l">Avg. Completion</div></div>
+        <div class="stat"><div class="v">$200K</div><div class="l">Avg. Value Added</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <h2>Gallery</h2>
+        <p>Drop your existing images into <code>/images</code> and match the filenames below.</p>
+      </div>
+
+      <div class="models-grid">
+        <div class="model">
+          <div class="model-img" style="background-image:url('/images/gallery-1.jpg');"></div>
+          <div class="model-body"><p style="margin:0;color:var(--muted)">Exterior example</p></div>
+        </div>
+        <div class="model">
+          <div class="model-img" style="background-image:url('/images/gallery-2.jpg');"></div>
+          <div class="model-body"><p style="margin:0;color:var(--muted)">Interior example</p></div>
+        </div>
+        <div class="model">
+          <div class="model-img" style="background-image:url('/images/gallery-3.jpg');"></div>
+          <div class="model-body"><p style="margin:0;color:var(--muted)">Finish example</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="service-area" style="background:var(--soft);border-top:1px solid var(--border);">
+    <div class="container">
+      <div class="section-title">
+        <h2>Serving the Greater Windsor Area</h2>
+        <p>We start locally with a focused service area to keep delivery consistent and predictable.</p>
+      </div>
+
+      <div class="list" role="list">
+        <div class="li" role="listitem">Windsor</div>
+        <div class="li" role="listitem">LaSalle</div>
+        <div class="li" role="listitem">Tecumseh</div>
+        <div class="li" role="listitem">Lakeshore</div>
+        <div class="li" role="listitem">Amherstburg</div>
+        <div class="li" role="listitem">Essex</div>
+        <div class="li" role="listitem">Kingsville</div>
+        <div class="li" role="listitem">Leamington</div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">Start Your Build</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="foot-title">ADU Canada</div>
-          <div style="color:rgba(255,255,255,0.75); max-width: 520px;">
-            To provide a repeatable housing solution for clients who need speed, predictability, and design integrity.
+          <div class="brand" style="margin-bottom:10px;">
+            <span class="brand-badge">ADU</span>
+            <span>ADU Canada</span><span style="color:var(--accent)">.</span>
           </div>
+          <p>Repeatable housing solutions for speed, predictability, and design integrity.</p>
+          <p style="margin-top:10px;">
+            <a href="mailto:sales@aducanada.com" style="text-decoration:underline;">sales@aducanada.com</a><br/>
+            <a href="tel:+19802224469" style="text-decoration:underline;">980-222-4469</a>
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h4 style="margin-bottom:8px;">Explore</h4>
+          <a href="#models">Models</a>
+          <a href="#process">Process</a>
+          <a href="#gallery">Gallery</a>
         </div>
 
         <div>
-          <div class="foot-title">Service Area</div>
-          <div style="color:rgba(255,255,255,0.75);">Greater Windsor Area</div>
-          <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem;">
-            <span class="pill">Windsor</span>
-            <span class="pill">LaSalle</span>
-            <span class="pill">Tecumseh</span>
-            <span class="pill">Lakeshore</span>
-            <span class="pill">Amherstburg</span>
+          <h4 style="margin-bottom:8px;">Follow</h4>
+          <div class="social" style="gap:10px;margin-top:6px;">
+            <a href="https://www.instagram.com/adu_canada" target="_blank" rel="noopener noreferrer" aria-label="Instagram @adu_canada">IG</a>
           </div>
-        </div>
-
-        <div>
-          <div class="foot-title">Start</div>
-          <div class="foot-link"><a href="mailto:sales@aducanada.com">sales@aducanada.com</a></div>
-          <div class="foot-link"><a href="tel:9802224469">980-222-4469</a></div>
-          <div style="margin-top:1rem;">
-            <a class="btn btn-primary" href="{mailto}">Start Your Build</a>
-          </div>
-          <div style="margin-top:.9rem;" class="foot-link">
-            <a href="https://www.instagram.com/adu_canada/" target="_blank" rel="noopener noreferrer">Instagram @adu_canada</a>
+          <div class="footer-cta" style="margin-top:14px;">
+            <a class="btn btn-primary" href="mailto:sales@aducanada.com?subject=ADU%20Canada%20-%20Start%20Your%20Build">Start Your Build</a>
           </div>
         </div>
       </div>
 
-      <div class="foot-small">
-        Staging landing page for internal review. Images and model detail pages will be added after team validation.
+      <div class="footbar">
+        <div>© <span id="y"></span> ADU Canada. All rights reserved.</div>
+        <div>Staging build (GitHub → Vercel). Not production.</div>
       </div>
     </div>
   </footer>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-"""
-out_path.write_text(html, encoding="utf-8")
-
-str(out_path)
