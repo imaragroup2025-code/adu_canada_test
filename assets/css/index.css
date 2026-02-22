@@ -108,3 +108,64 @@ nav .h-20 { height: 5rem; }
   .models-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
 }
+
+
+/* ==============================
+   Conversion Block (Problem -> Why)
+   ============================== */
+.conversion-section { padding: 5rem 0; background: #fff; }
+.conversion-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.5rem; align-items: center; }
+.conversion-kicker { display: inline-flex; gap: 0.5rem; align-items: center; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b7280; margin-bottom: 0.75rem; }
+.conversion-title { font-size: 2.25rem; line-height: 1.15; font-weight: 750; margin-bottom: 0.75rem; }
+.conversion-lead { color: #6b7280; max-width: 54ch; margin-bottom: 1.5rem; }
+
+.conversion-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.mini-card { border: 1px solid #e5e7eb; border-radius: 0.75rem; padding: 1rem; background: #fff; }
+.mini-card h3 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+.mini-card p { font-size: 0.9rem; color: #6b7280; line-height: 1.5; }
+
+.conversion-ctas { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 0.25rem; }
+.btn-secondary-light { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; background: #fff; color: #1a1a1a; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s; }
+.btn-secondary-light:hover { border-color: #d1d5db; transform: translateY(-1px); }
+
+.conversion-proof { margin-top: 1rem; font-size: 0.875rem; color: #6b7280; }
+.conversion-proof strong { color: #1a1a1a; font-weight: 600; }
+
+.conversion-media { position: relative; }
+.conversion-media img { width: 100%; height: 520px; object-fit: cover; border-radius: 1rem; display: block; box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+.conversion-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: linear-gradient(to bottom, rgba(249,250,251,0.08), rgba(249,250,251,0.30));
+  pointer-events: none;
+}
+
+/* ==============================
+   Process Section (compact)
+   ============================== */
+.process-section { padding: 4.5rem 0; background: #f9fafb; }
+.process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; margin-top: 1.75rem; }
+.process-step { border: 1px solid #e5e7eb; background: #fff; border-radius: 0.75rem; padding: 1.25rem; }
+.step-num { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #6b7280; margin-bottom: 0.4rem; }
+.process-step h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+.process-step p { color: #6b7280; font-size: 0.9rem; line-height: 1.55; }
+.process-cta { margin-top: 1.75rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+/* ==============================
+   Stats sizing (reduce visual shouting)
+   ============================== */
+.stat-value { font-size: 2.25rem; font-weight: 750; }
+.stat-label { font-size: 0.8rem; }
+
+/* ==============================
+   Mobile nav-open behavior (works with your current HTML)
+   ============================== */
+@media (max-width: 768px) {
+  nav.nav-open .hidden.md\:flex { display: flex; flex-direction: column; width: 100%; gap: 0.75rem; padding: 1rem 0 1.25rem; }
+  .conversion-grid { grid-template-columns: 1fr; }
+  .conversion-cards { grid-template-columns: 1fr; }
+  .conversion-media img { height: 360px; }
+  .process-grid { grid-template-columns: 1fr; }
+}
