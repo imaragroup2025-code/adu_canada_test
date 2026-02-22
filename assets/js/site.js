@@ -9,30 +9,28 @@ const PHONE_NUMBER = "980-222-4469";
 
 // ==============================
 // Mobile Menu Toggle
+// Uses the existing .menu-toggle button in the HTML
 // ==============================
 document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('nav');
-  
-  // Create mobile menu toggle button
-  const toggle = document.createElement('button');
-  toggle.className = 'menu-toggle';
-  toggle.innerHTML = '☰';
+  const toggle = document.querySelector('.menu-toggle');
+
+  if (!nav || !toggle) return;
+
   toggle.setAttribute('aria-label', 'Toggle menu');
   toggle.setAttribute('aria-expanded', 'false');
-  
-  nav.appendChild(toggle);
-  
-  // Toggle menu on click
+
   toggle.addEventListener('click', () => {
     const isOpen = nav.classList.toggle('nav-open');
-    toggle.setAttribute('aria-expanded', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
     toggle.innerHTML = isOpen ? '✕' : '☰';
   });
-  
-  // Close menu when clicking nav links (mobile)
-  const navLinks = document.querySelectorAll('.nav-links a');
+
+  // Close menu when clicking any nav link (mobile)
+  const navLinks = nav.querySelectorAll('a[href]');
   navLinks.forEach(link => {
     link.addEventListener('click', () => {
+      if (!nav.classList.contains('nav-open')) return;
       nav.classList.remove('nav-open');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.innerHTML = '☰';
